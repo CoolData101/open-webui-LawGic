@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const signIn = document.getElementById('sign-in-button');
+    
+    
     if (signIn) {
       signIn.addEventListener('click', function() {
         const name = document.getElementById('name').value;
@@ -9,22 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   
-    const forgotPassword = document.getElementById('forgot-password-button');
-    if (forgotPassword) {
-      forgotPassword.addEventListener('click', function() {
-        alert('Forgot Password clicked');
-        // Redirect to forgot password page or display forgot password dialog
-        window.location.href = 'forgot-password.html'; // example redirect
-      });
-    }
-  
-    const createAccount = document.getElementById('create-account');
-    if (createAccount) {
-      createAccount.addEventListener('click', function() {
-        alert('Create Account clicked');
-        // Redirect to create account page or display create account dialog
-        window.location.href = 'create-account.html'; // example redirect
-      });
-    }
+    
   });
+
+function checkLength(info){
+    if (info.length < 8 )
+}
   
