@@ -115,7 +115,7 @@ select {
 .scrollbar-none {
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
-}
+/}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -140,3 +140,5 @@ input[type='number'] {
 .cm-editor.cm-focused {
 	outline: none;
 }
+
+	

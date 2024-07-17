@@ -21,3 +21,6 @@ class CustomBuildHook(BuildHookInterface):
         stderr.write("\n### npm run build\n")
         os.environ["APP_BUILD_HASH"] = version
         subprocess.run([npm, "run", "build"], check=True)  # noqa: S603
+
+
+

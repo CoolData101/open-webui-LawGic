@@ -1,214 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<link rel="manifest" href="%sveltekit.assets%/manifest.json" crossorigin="use-credentials" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-		<meta name="robots" content="noindex,nofollow" />
-		<link
-			rel="search"
-			type="application/opensearchdescription+xml"
-			title="Open WebUI"
-			href="/opensearch.xml"
-		/>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <link rel="manifest" href="%sveltekit.assets%/manifest.json" crossorigin="use-credentials" />
+    <link rel="stylesheet" href="app.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <link
+      rel="search"
+      type="application/opensearchdescription+xml"
+      title="Open WebUI"
+      href="/opensearch.xml"
+    />
 
-		<script>
-			function resizeIframe(obj) {
-				obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
-			}
-		</script>
+    <script>
+      function resizeIframe(obj) {
+        obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+      }
+    </script>
 
-		<script>
-			// On page load or when changing themes, best to add inline in `head` to avoid FOUC
-			(() => {
-				if (localStorage?.theme && localStorage?.theme.includes('oled')) {
-					document.documentElement.style.setProperty('--color-gray-900', '#000000');
-					document.documentElement.style.setProperty('--color-gray-950', '#000000');
-					document.documentElement.classList.add('dark');
-				} else if (
-					localStorage.theme === 'light' ||
-					(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)
-				) {
-					document.documentElement.classList.add('light');
-				} else if (localStorage.theme && localStorage.theme !== 'system') {
-					localStorage.theme.split(' ').forEach((e) => {
-						document.documentElement.classList.add(e);
-					});
-				} else if (localStorage.theme && localStorage.theme === 'system') {
-					systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-					document.documentElement.classList.add(systemTheme ? 'dark' : 'light');
-				} else if (localStorage.theme && localStorage.theme === 'her') {
-					document.documentElement.classList.add('dark');
-					document.documentElement.classList.add('her');
-				} else {
-					document.documentElement.classList.add('dark');
-				}
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      (() => {
+        if (localStorage?.theme && localStorage?.theme.includes('oled')) {
+          document.documentElement.style.setProperty('--color-gray-900', '#000000');
+          document.documentElement.style.setProperty('--color-gray-950', '#000000');
+          document.documentElement.classList.add('dark');
+        } else if (
+          localStorage.theme === 'light' ||
+          (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)
+        ) {
+          document.documentElement.classList.add('light');
+        } else if (localStorage.theme && localStorage.theme !== 'system') {
+          localStorage.theme.split(' ').forEach((e) => {
+            document.documentElement.classList.add(e);
+          });
+        } else if (localStorage.theme && localStorage.theme === 'system') {
+          systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.add(systemTheme ? 'dark' : 'light');
+        } else if (localStorage.theme && localStorage.theme === 'her') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.add('her');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
 
-				window.matchMedia('(prefers-color-scheme: dark)').addListener((e) => {
-					if (localStorage.theme === 'system') {
-						if (e.matches) {
-							document.documentElement.classList.add('dark');
-							document.documentElement.classList.remove('light');
-						} else {
-							document.documentElement.classList.add('light');
-							document.documentElement.classList.remove('dark');
-						}
-					}
-				});
-			})();
-		</script>
+        window.matchMedia('(prefers-color-scheme: dark)').addListener((e) => {
+          if (localStorage.theme === 'system') {
+            if (e.matches) {
+              document.documentElement.classList.add('dark');
+              document.documentElement.classList.remove('light');
+            } else {
+              document.documentElement.classList.add('light');
+              document.documentElement.classList.remove('dark');
+            }
+          }
+        });
+      })();
+    </script>
 
-		<title>Open WebUI</title>
+    <title>Lawgic AI</title>
+    <style type="text/css" nonce="">
+      html {
+        overflow-y: hidden !important;
+      }
 
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
+      Frame1,
+      GetLegalanswersKnowYourRightsWinYourCase {
+        font-family: "Roboto";
+      }
 
-		<div
-			id="splash-screen"
-			style="position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%"
-		>
-			<style type="text/css" nonce="">
-				html {
-					overflow-y: scroll !important;
-				}
-			</style>
-
-			<img
-				id="logo"
-				style="
-					position: absolute;
-					width: 6rem;
-					height: 6rem;
-					top: 41%;
-					left: 50%;
-					margin-left: -3rem;
-				"
-				src="/logo.svg"
-			/>
-
-			<div
-				style="
-					position: absolute;
-					top: 33%;
-					left: 50%;
-
-					width: 24rem;
-					margin-left: -12rem;
-
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-				"
-			>
-				<img
-					id="logo-her"
-					style="width: 13rem; height: 13rem"
-					src="/logo.svg"
-					class="animate-pulse-fast"
-				/>
-
-				<div style="position: relative; width: 24rem; margin-top: 0.5rem">
-					<div
-						id="progress-background"
-						style="
-							position: absolute;
-							width: 100%;
-							height: 0.75rem;
-
-							border-radius: 9999px;
-							background-color: #fafafa9a;
-						"
-					></div>
-
-					<div
-						id="progress-bar"
-						style="
-							position: absolute;
-							width: 0%;
-							height: 0.75rem;
-							border-radius: 9999px;
-							background-color: #fff;
-						"
-						class="bg-white"
-					></div>
-				</div>
+      #splash-screen {
+        background: #fff;
+      }
+      html.dark #splash-screen {
+        background: #000;
+      }
+      html.dark #splash-screen img {
+        filter: invert(1);
+      }
+      html.her #splash-screen {
+        background: #983724;
+      }
+      #logo-her {
+        display: none;
+      }
+      #progress-background {
+        display: none;
+      }
+      #progress-bar {
+        display: none;
+      }
+      html.her #logo {
+        display: none;
+      }
+      html.her #logo-her {
+        display: block;
+        filter: invert(1);
+      }
+      html.her #progress-background {
+        display: block;
+      }
+      html.her #progress-bar {
+        display: block;
+      }
+      @media (max-width: 24rem) {
+        html.her #progress-background {
+          display: none;
+        }
+        html.her #progress-bar {
+          display: none;
+        }
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.65;
+        }
+      }
+      .animate-pulse-fast {
+        animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Desktop1" style="width: 1440px; height: 1784px; position: relative; background: black">
+      <div class="Frame1" style="width: 192px; height: 205px; left: 720px; top: 1024px; position: absolute; background: black"></div>
+      <div class="GetLegalAnswersKnowYourRightsWinYourCase" style="left: 485px; top: 397px; position: absolute; text-align: center; color: white; font-size: 57px; font-family: Roboto; font-weight: 400; line-height: 64px; word-wrap: break-word">
+        Get Legal Answers<br />Know Your Rights<br />Win Your Case
+      </div>
+      <div class="FreeAndEasyToUseSimplyAskLawgicALegalQuestionAndItBringYouTheJusticeYouDeserve" style="width: 689.94px; height: 103.16px; left: 375px; top: 607.31px; position: absolute; text-align: center; color: white; font-size: 29px; font-family: Inria Serif; font-weight: 400; line-height: 40.60px; word-wrap: break-word">
+        Free and Easy to use. Simply ask LawGic a legal question and it bring you the justice you deserve
+      </div>
+      <div class="Rectangle4" style="width: 207px; height: 77px; left: 616px; top: 715px; position: absolute; background: white; border-radius: 30px"></div>
+      <div class="StartNow" style="left: 651px; top: 737px; position: absolute; text-align: center; color: black; font-size: 29px; font-family: Inter; font-weight: 400; line-height: 34.80px; word-wrap: break-word">Start Now</div>
+      <div class="ResearchesWritesAndPresentsCasesForYou" style="width: 671px; left: 385px; top: 870px; position: absolute; text-align: center; color: white; font-size: 57px; font-family: Roboto; font-weight: 400; line-height: 64px; word-wrap: break-word">
+        Researches, writes, and presents cases for you
+      </div>
+      <img class="Image1" style="width: 1111px; height: 595px; left: 165px; top: 1076px; position: absolute" src="https://via.placeholder.com/1111x595" />
+      <div class="Header" style="width: 1509px; height: 91px; padding: 32px; left: -69px; top: 0px; position: absolute; background: white; border-bottom: 1px #D9D9D9 solid; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
+        <div class="NavigationPillList" style="flex: 1 1 0; height: 32px; justify-content: flex-end; align-items: center; gap: 8px; display: flex">
+          <div class="NavigationPill" style="padding: 8px; background: #F5F5F5; border-radius: 8px; justify-content: center; align-items: center; gap: 8px; display: flex">
+            <div class="Title" style="color: #1E1E1E; font-size: 16px; font-family: Inter; font-weight: 400; line-height: 16px; word-wrap: break-word">Pricing</div>
+          </div>
+          <div class="NavigationPill" style="padding: 8px; border-radius: 8px; justify-content: center; align-items: center; gap: 8px; display: flex">
+            <div class="Title" style="color: #1E1E1E; font-size: 16px; font-family">
 			</div>
-
-			<!-- <span style="position: absolute; bottom: 32px; left: 50%; margin: -36px 0 0 -36px">
-				Footer content
-			</span> -->
-		</div>
-	</body>
-</html>
-
-<style type="text/css" nonce="">
-	html {
-		overflow-y: hidden !important;
-	}
-
-	#splash-screen {
-		background: #fff;
-	}
-	html.dark #splash-screen {
-		background: #000;
-	}
-
-	html.dark #splash-screen img {
-		filter: invert(1);
-	}
-
-	html.her #splash-screen {
-		background: #983724;
-	}
-
-	#logo-her {
-		display: none;
-	}
-
-	#progress-background {
-		display: none;
-	}
-
-	#progress-bar {
-		display: none;
-	}
-
-	html.her #logo {
-		display: none;
-	}
-
-	html.her #logo-her {
-		display: block;
-		filter: invert(1);
-	}
-
-	html.her #progress-background {
-		display: block;
-	}
-
-	html.her #progress-bar {
-		display: block;
-	}
-
-	@media (max-width: 24rem) {
-		html.her #progress-background {
-			display: none;
-		}
-
-		html.her #progress-bar {
-			display: none;
-		}
-	}
-
-	@keyframes pulse {
-		50% {
-			opacity: 0.65;
-		}
-	}
-	.animate-pulse-fast {
-		animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-	}
-</style>
+</div>
